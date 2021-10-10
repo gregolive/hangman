@@ -4,12 +4,15 @@ require_relative 'database'
 require_relative 'display'
 require 'yaml'
 
+# rubocop:disable Metrics/ClassLength
+
 # Play a game of hangman
 class Game
   include Database
   include Display
 
-  FINISHED_HANGMAN = ["\e[31m¯\e[0m","\e[31m\\\e[0m","\e[31m_\e[0m","\e[31m(\e[0m","\e[31mツ\e[0m","\e[31m)\e[0m","\e[31m_\e[0m","\e[31m/\e[0m","\e[31m¯\e[0m"]
+  FINISHED_HANGMAN = ["\e[31m¯\e[0m", "\e[31m\\\e[0m", "\e[31m_\e[0m", "\e[31m(\e[0m", "\e[31mツ\e[0m", "\e[31m)\e[0m",
+                      "\e[31m_\e[0m", "\e[31m/\e[0m", "\e[31m¯\e[0m"].freeze
 
   def initialize
     start
@@ -24,20 +27,20 @@ class Game
 
   def new_or_load
     input = gets.chomp
-    while ["1", "2"].include?(input) == false
+    while %w[1 2].include?(input) == false
       puts error_message[0]
       input = gets.chomp
     end
-    input == "1" ? new_game : load_game
+    input == '1' ? new_game : load_game
   end
 
   def new_game
     @word = generate_word
-    @word_cue = Array.new(@word.length){|index| "_"}
-    @hangman = ['¯','\\','_','(','ツ',')','_','/','¯']
+    @word_cue = Array.new(@word.length) { |_index| '_' }
+    @hangman = ['¯', '\\', '_', '(', 'ツ', ')', '_', '/', '¯']
     @strikes = 0
     @round = 1
-    @guesses = Array.new()
+    @guesses = []
     play_game
   end
 
@@ -45,20 +48,19 @@ class Game
     words = File.readlines('dictionary.txt')
     list = []
     words.each do |word|
-      next if !(word.chomp.length.between?(5, 12))
+      next unless word.chomp.length.between?(5, 12)
+
       list.push(word.chomp.downcase)
     end
-    list.sample.split("")
+    list.sample.split('')
   end
-  
+
   def play_game
-    while @word_cue.include?("_") && @strikes < 9
-      play_round
-    end
+    play_round while @word_cue.include?('_') && @strikes < 9
     game_over
     File.delete(@file) if defined?(@file)
   end
-  
+
   def play_round
     display_board
     guess_letter
@@ -74,8 +76,8 @@ class Game
 
   def guess_letter
     input = gets.chomp.downcase
-    while input.length > 1 || !(input.match? /\A[a-zA-Z'-]*\z/)
-      save_game if input == "save"
+    while input.length > 1 || !input.match?(/\A[a-zA-Z'-]*\z/)
+      save_game if input == 'save'
       puts error_message[1]
       input = gets.chomp.downcase
     end
@@ -129,3 +131,5 @@ class Game
     puts result[1]
   end
 end
+
+# rubocop:enable Metrics/ClassLength

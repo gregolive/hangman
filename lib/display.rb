@@ -38,11 +38,11 @@ module Display
   end
 
   def display_blanks(word)
-    puts "\t\e[34m#{word.join(" ")}\e[0m\n"
+    puts "\t\e[34m#{word.join(' ')}\e[0m\n"
   end
 
   def display_guesses(guesses)
-    puts "\nGuessed letters: #{guesses.join(", ")}"
+    puts "\nGuessed letters: #{guesses.join(', ')}"
   end
 
   def display_prompt
@@ -54,18 +54,18 @@ module Display
   end
 
   def display_filename_prompt
-    puts "Enter save file name."
+    puts 'Enter save file name.'
   end
 
   def display_answer(word, word_cue)
     word_cue.each_with_index do |element, index|
-      if element == "_"
-        word_cue[index] = "\e[31m#{word[index]}\e[0m"
-      else
-        word_cue[index] = "\e[34m#{word[index]}\e[0m"
-      end
+      word_cue[index] = if element == '_'
+                          "\e[31m#{word[index]}\e[0m"
+                        else
+                          "\e[34m#{word[index]}\e[0m"
+                        end
     end
-    puts "\t#{word_cue.join(" ")}\n"
+    puts "\t#{word_cue.join(' ')}\n"
   end
 
   def result
@@ -74,5 +74,4 @@ module Display
       "\n\e[31mYou are out of guesses. Better luck next time!\e[0m"
     ]
   end
-  
 end
