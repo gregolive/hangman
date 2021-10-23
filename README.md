@@ -6,7 +6,7 @@ Live demo on [Replit](https://replit.com/@gregolive/Hangman) 👈
 
 ## Functionality
 
-A command version of the pen paper and pencil guessing game, hangman. Players have the option to save their game at any point during play and a savefile with their chosen name is created. On launch, the player can then choose to start a new game or continue a saved game.
+A command line version of the pen paper and pencil guessing game, hangman. Players have the option to save their game at any point during play and a savefile with their chosen name is created. On launch, the player can then choose to start a new game or continue a saved game.
 
 A new 5-12 character word is randomly selected at the start of any new game. Words are picked from the 5desk list on [scrapmaker.com](https://www.scrapmaker.com/view/twelve-dicts/5desk.txt).
 
